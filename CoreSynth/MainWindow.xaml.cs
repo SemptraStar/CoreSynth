@@ -29,35 +29,69 @@ namespace CoreSynth
             InitializeComponent();            
         }
 
-        public Oscillator Osc1 = new Oscillator(100000);
-
-        public Oscillator Osc2 = new Oscillator(100000);
+        public Oscillator Osc1 = new Oscillator(44100);
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Osc1.Frequency = Convert.ToSingle(FrequencyInputTextBox1.Text);
-            Osc2.Frequency = Convert.ToSingle(FrequencyInputTextBox2.Text);
+            // https://stackoverflow.com/questions/7008561/naudio-algorithm-to-play-a-sinewave-whose-frequency-can-be-changed-smoothly-in-r
 
-            Osc2.Phase = (float)Math.PI / 3;
+            Osc1.Frequency = Convert.ToSingle(FrequencyInputTextBox1.Text);
 
             Osc1.GenerateSine();
-            Osc2.GenerateSine();
-
-            Osc1.AddWave(Osc2);
 
             Play(Osc1.GetByteWave());
         }
 
         private void Play(byte[] buffer)
         {
-            var source = new RawSourceWaveStream(
-                new MemoryStream(buffer),
-                new WaveFormat()
-                );
+            var source = new LoopStream(
+                new RawSourceWaveStream(
+                    new MemoryStream(buffer),
+                    new WaveFormat()
+                ));
 
-            var wv = new WaveOutEvent();
-            wv.Init(source);
-            wv.Play();
+            we.Init(source);
+            we.Play();
+        }
+
+        private WaveOutEvent we = new WaveOutEvent();
+
+        private bool _isPlaying = false;
+
+        private void OSC1PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_isPlaying)
+            {
+                we.Stop();
+                _isPlaying = !_isPlaying;
+
+                return;
+            }
+
+            _isPlaying = !_isPlaying;
+
+            Osc1.Frequency = Convert.ToSingle(OSC1FrequencySlider.Value);
+            Osc1.Amplitude = Convert.ToSingle(OSC1AmplitudeSlider.Value);
+            Osc1.Phase = Convert.ToSingle(OSC1PhaseSlider.Value);
+            Osc1.SampleRate = Convert.ToSingle(OSC1SampleRateTextBox.Text);
+
+            Osc1.GenerateSine();
+
+            Play(Osc1.GetByteWave());
+        }
+
+        private void OSC1FrequencySlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!_isPlaying)
+                return;
+
+            we.Stop();
+
+            Osc1.Frequency = Convert.ToSingle(OSC1FrequencySlider.Value);
+
+            Osc1.GenerateSine();
+
+            Play(Osc1.GetByteWave());
         }
     }
 }

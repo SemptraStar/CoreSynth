@@ -11,5 +11,39 @@
         <TextBox x:Name="FrequencyInputTextBox1" HorizontalAlignment="Left" Height="23" Margin="113,252,0,0" TextWrapping="Wrap" Text="500" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="FrequencyInputTextBox2" HorizontalAlignment="Left" Height="23" Margin="238,252,0,0" TextWrapping="Wrap" Text="500" VerticalAlignment="Top" Width="120"/>
 
+
+
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="161" Margin="362,45,0,0" VerticalAlignment="Top" Width="326">
+            <Grid x:Name="OSC1" Margin="0.2,0.2,-0.4,-0.2">
+                <Button x:Name="OSC1PlayButton" Content="Play" Click="OSC1PlayButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Width="40" Height="40" RenderTransformOrigin="0.457,0.53" Margin="10,61,0,0"/>
+
+                <Label x:Name="OSC1FrequencyLabel" Content="Frequency (HZ)" HorizontalAlignment="Left"  
+                   VerticalAlignment="Top" Width="103" Margin="76,10,0,0"/>
+
+                <Label x:Name="OSC1AmplitudeLabel" Content="Amplitude" HorizontalAlignment="Left"  
+                   VerticalAlignment="Top" Width="103" Margin="76,75,0,0"/>
+
+                <Label x:Name="OSC1PhaseLabel" Content="Phase (radians)" HorizontalAlignment="Left"  
+                   VerticalAlignment="Top" Width="103" Margin="197,10,0,0"/>
+
+                <TextBox x:Name="OSC1SampleRateTextBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" 
+                     Text="44100" VerticalAlignment="Top" Width="103" Margin="197,105,0,0"/>
+
+                <Label x:Name="OSC1SampleRateLabel" Content="Sample rate" HorizontalAlignment="Left"  
+                   VerticalAlignment="Top" Width="103" Margin="197,75,0,0"/>
+                
+                <Slider x:Name="OSC1FrequencySlider" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Width="103" Margin="76,41,0,0" Minimum="1" Maximum="1000" Height="23" ValueChanged="OSC1FrequencySlider_ValueChanged"/>
+
+                <Slider x:Name="OSC1AmplitudeSlider" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Width="103" Margin="76,106,0,0" Minimum="1" Maximum="127" Height="23"/>
+
+                <Slider x:Name="OSC1PhaseSlider" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Width="103" Margin="197,41,0,0" Minimum="0" Maximum="6.2831852" Height="23"/>
+            </Grid>
+        </Border>
+
+
     </Grid>
 </Window>
